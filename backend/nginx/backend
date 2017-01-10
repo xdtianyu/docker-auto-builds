@@ -17,16 +17,22 @@ server {
     location = /50x.html {
         root   /usr/share/nginx/html;
     }
+
     location /api/v1 {
+        return 302 $http_x_forwarded_proto://$host$uri/;
+    }
+
+    location /api/v1/ {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-NginX-Proxy true;
-        proxy_pass http://localhost:5000/api/v1;
+        proxy_pass http://localhost:5000/api/v1/;
         proxy_ssl_session_reuse off;
         proxy_set_header Host $host;
         proxy_redirect off;
-    proxy_set_header X-Scheme https;
+        proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
     }
+
     location /mongo {
         auth_basic "Authentication required";
         auth_basic_user_file /etc/nginx/.htpasswd;
@@ -37,6 +43,7 @@ server {
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
     }
+
     location /express {
         auth_basic "Authentication required";
         auth_basic_user_file /etc/nginx/.htpasswd;
