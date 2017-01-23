@@ -2,7 +2,7 @@
 
 A docker image which runs [chisel](https://github.com/jpillora/chisel) and squid.
 
-## Run in heroku
+## Run on heroku
 
 ```shell
 heroku container:push web --app YOUR_APP_NAME
@@ -21,7 +21,7 @@ And goto chrome SwitchyOmega settings, add a `http` proxy `127.0.0.1` `port` `31
 ## Run in background
 
 ```shell
-docker run -it -p 2222:2222 -p 8080:8080 -d xdtianyu/docker:chisel
+docker run -it -p 2222:2222 -p 8080:8080 -e PORT=8080 -d xdtianyu/docker:chisel
 ```
 
 ## Connect via ssh
@@ -34,4 +34,4 @@ ssh root@localhost -p 2222
 
 ## Connect via http
 
-Open `http://localhost:80/ttyd` in your browser, username and password is `root`
+Open `http://localhost:8080/ttyd` in your browser, username and password is `root`
