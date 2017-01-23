@@ -8,12 +8,19 @@ A docker image which can be connected by ssh or http runs on heroku.
 docker run -it -p 2222:2222 -p 8080:8080 -e PORT=8080 -d xdtianyu/docker:heroku
 ```
 
-## Connect via ssh
-
-`root` password is `root`
+## Connect via docker exec
 
 ```shell
-ssh root@localhost -p 2222
+docker exec -it CONTAINER_NAME bash
+```
+
+## Connect via ssh
+
+`root` password is `root`, `ty` password is `ty`.
+
+```shell
+ssh ty@localhost -p 2222
+su -
 ```
 
 ## Connect via http

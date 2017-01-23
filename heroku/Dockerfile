@@ -27,6 +27,7 @@ ADD entrypoint.sh /usr/sbin
 
 RUN adduser -D ty && \
     chown -R ty:ty /etc /var/log /var/run /var/local /var/lib /run /usr && \
+    echo "ty:ty" | chpasswd && \
     chmod -R 777 /var/lib
 
 USER ty

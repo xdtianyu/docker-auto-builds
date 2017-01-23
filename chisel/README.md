@@ -24,12 +24,19 @@ And goto chrome SwitchyOmega settings, add a `http` proxy `127.0.0.1` `port` `31
 docker run -it -p 2222:2222 -p 8080:8080 -e PORT=8080 -d xdtianyu/docker:chisel
 ```
 
-## Connect via ssh
-
-`root` password is `root`
+## Connect via docker exec
 
 ```shell
-ssh root@localhost -p 2222
+docker exec -it CONTAINER_NAME bash
+```
+
+## Connect via ssh
+
+`root` password is `root`, `ty` password is `ty`.
+
+```shell
+ssh ty@localhost -p 2222
+su -
 ```
 
 ## Connect via http
