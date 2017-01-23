@@ -23,6 +23,8 @@ ssh ty@localhost -p 2222
 su -
 ```
 
+Please notice Heroku docker does not support USER and root privilege, so you can not connect to heroku docker via ssh.
+
 ## Connect via http
 
 Open `http://localhost:8080/ttyd` in your browser, username and password is `root`
