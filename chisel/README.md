@@ -42,3 +42,29 @@ su -
 ## Connect via http
 
 Open `http://localhost:8080/ttyd` in your browser, username and password is `root`
+
+## Nginx proxy heroku example
+
+Here is an example if you want proxy `https://YOUR_APP_NAME.herokuapp.com` with `https://www.example.org/chisel`.
+
+```
+    location /chisel {
+        proxy_pass https://YOUR_APP_NAME.herokuapp.com;
+        resolver 8.8.8.8;
+        proxy_set_header Host YOUR_APP_NAME.herokuapp.com;
+        proxy_buffering off;
+        proxy_connect_timeout   10;
+        proxy_send_timeout      15;
+        proxy_read_timeout      20;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+```
+
+And then you can run chisel with your own domain.
+
+```shell
+chisel client -v https://www.example.org/chisel 3128
+```
