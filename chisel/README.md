@@ -47,13 +47,14 @@ Open `http://localhost:8080/ttyd` in your browser, username and password is `roo
 
 ## Nginx proxy heroku example
 
-Here is an example if you want proxy `https://YOUR_APP_NAME.herokuapp.com` with `https://www.example.org/chisel`.
+Here is an example if you want proxy `https://YOUR_APP_NAME.herokuapp.com` with `https://www.example.org/heroku`.
 
 ```
-    location /chisel {
-        proxy_pass https://YOUR_APP_NAME.herokuapp.com;
+    location /heroku {
+        proxy_pass https://YOUR_APP_NAME.herokuapp.com/chisel/;
         resolver 8.8.8.8;
         proxy_set_header Host YOUR_APP_NAME.herokuapp.com;
+        proxy_ssl_server_name on;
         proxy_buffering off;
         proxy_connect_timeout   10;
         proxy_send_timeout      15;
@@ -68,5 +69,5 @@ Here is an example if you want proxy `https://YOUR_APP_NAME.herokuapp.com` with 
 And then you can run chisel with your own domain.
 
 ```shell
-chisel client -v https://www.example.org/chisel 3128
+chisel client -v https://www.example.org/heroku 3128
 ```
