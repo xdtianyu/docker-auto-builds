@@ -3,11 +3,12 @@
 VERSION=r16b
 
 if [ ! -d "/opt/ndk" ] || [ -z "$(ls -A /opt/ndk)" ];then
-    cd /opt
+    mkdir -p /opt/ndk && cd /opt/ndk
     wget "https://dl.google.com/android/repository/android-ndk-$VERSION-linux-x86_64.zip"
     unzip -qq "android-ndk-$VERSION-linux-x86_64.zip"
+    mv "android-ndk-$VERSION/"* .
     rm "android-ndk-$VERSION-linux-x86_64.zip"
-    mv "android-ndk-$VERSION" ndk
+    rm -r "android-ndk-$VERSION/"
     export ANDROID_NDK=/opt/ndk
     export ANDROID_NDK_HOME=/opt/ndk
     cd -

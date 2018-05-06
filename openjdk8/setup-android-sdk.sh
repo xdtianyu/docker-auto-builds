@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ! -d "/opt/sdk" ] || [ -z "$(ls -A /opt/sdk)" ];then
-    mkdir /opt/sdk && cd /opt/sdk
+    mkdir -p /opt/sdk && cd /opt/sdk
     wget https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip
     unzip -qq sdk-tools-linux-3859397.zip
     rm sdk-tools-linux-3859397.zip
