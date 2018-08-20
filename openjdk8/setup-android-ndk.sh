@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=r16b
+VERSION=r17b
 
 if [ ! -d "/opt/ndk" ] || [ -z "$(ls -A /opt/ndk)" ];then
     mkdir -p /opt/ndk && cd /opt/ndk
