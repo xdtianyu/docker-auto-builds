@@ -2,9 +2,9 @@
 
 if [ ! -d "/opt/sdk" ] || [ -z "$(ls -A /opt/sdk)" ];then
     mkdir -p /opt/sdk && cd /opt/sdk
-    wget https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip
-    unzip -qq sdk-tools-linux-3859397.zip
-    rm sdk-tools-linux-3859397.zip
+    wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+    unzip -qq sdk-tools-linux-4333796.zip
+    rm sdk-tools-linux-4333796.zip
     mkdir licenses
     echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > licenses/android-sdk-license
     echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> licenses/android-sdk-license
