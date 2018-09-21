@@ -6,7 +6,7 @@ ENV PATH $PATH:/usr/local/go/bin:$GOPATH/bin
 ENV PACKAGE github.com/jpillora/chisel
 ENV SS_PKG github.com/shadowsocks/shadowsocks-go/cmd/shadowsocks-server
 
-RUN apk add --update bash openssh libwebsockets json-c libssl1.0 supervisor nginx libgcc sudo busybox-suid curl wget tcpdump git go gzip musl-dev squid && \
+RUN apk add --update bash openssh libwebsockets json-c libssl1.0 supervisor nginx libgcc sudo busybox-suid curl wget tcpdump git go gzip musl-dev squid apache2 apache2-utils apache2-proxy apache2-ctl ttyd && \
     rm -rf /tmp/* /var/cache/apk/* && \
     go get -v $PACKAGE && \
     go get -v $SS_PKG && \
@@ -19,17 +19,17 @@ RUN rm -rf /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key && \
     echo "UsePrivilegeSeparation no" >> /etc/ssh/sshd_config && \
     echo "Port 2222" >> /etc/ssh/sshd_config && \
     echo "root:root" | chpasswd && \
-    ln -s /usr/lib/libwebsockets.so.9 /usr/lib/libwebsockets.so.8.1 && \
     rm /etc/nginx/conf.d/default.conf && mkdir /run/nginx && \
     mkdir -p /var/www && \
     mkdir -p /etc/supervisor.d/
-
-ADD ttyd/ttyd /usr/sbin
 
 ADD nginx/ttyd.conf /etc/nginx/conf.d
 ADD nginx/nginx.conf /etc/nginx/
 ADD nginx/.htpasswd /etc/nginx/
 ADD nginx/index.html /var/www
+
+ADD apache/ttyd.conf /etc/apache2/conf.d
+ADD apache/proxy.conf /etc/apache2/conf.d
 
 ADD ss/shadowsocks.json /etc/
 
@@ -43,13 +43,14 @@ ADD supervisor/ss.ini /etc/supervisor.d
 ADD entrypoint.sh /usr/sbin
 
 RUN adduser -D ty && \
-    chmod -R a+rw /etc /var/log /var/run /var/local /var/lib /run /usr && \
+    chmod -R a+rw /etc /var/log /var/run /var/local /var/lib /run /var/www /run /usr && \
     echo "ty:ty" | chpasswd && \
-    chmod -R 777 /var/lib
+    rm -r /var/log/apache2 && mkdir /var/log/apache2 && \
+    chmod -R 777 /var/lib /var/www /var/log
 
 USER ty
 
-EXPOSE 2222 8080
+EXPOSE 2222 8080 8081
 
 #ENTRYPOINT ["entrypoint.sh"]
 

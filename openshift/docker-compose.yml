@@ -1,0 +1,4 @@
+web:
+  image: xdtianyu/docker:arukas
+  ports:
+    - "8081:8081"
