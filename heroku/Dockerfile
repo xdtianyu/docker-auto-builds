@@ -1,6 +1,8 @@
-FROM alpine
+FROM shadowsocks/shadowsocks-libev
 
-RUN apk add --update bash openssh libwebsockets json-c libssl1.0 supervisor nginx libgcc sudo busybox-suid curl wget && \
+USER root
+
+RUN apk add --update bash openssh ttyd supervisor nginx libgcc sudo busybox-suid curl wget && \
     rm -rf /tmp/* /var/cache/apk/*
 
 RUN rm -rf /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key && \
@@ -12,8 +14,6 @@ RUN rm -rf /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key && \
     rm /etc/nginx/conf.d/default.conf && mkdir /run/nginx && \
     mkdir -p /var/www && \
     mkdir -p /etc/supervisor.d/
-
-ADD ttyd/ttyd /usr/sbin
 
 ADD nginx/ttyd.conf /etc/nginx/conf.d
 ADD nginx/nginx.conf /etc/nginx/
@@ -30,9 +30,28 @@ RUN adduser -D ty && \
     echo "ty:ty" | chpasswd && \
     chmod -R 777 /var/lib
 
+ADD https://github.com/v2ray/v2ray-core/releases/download/v4.18.0/v2ray-linux-64.zip /v2ray-linux-64.zip
+
+RUN mkdir -p /etc/v2ray && \
+    unzip /v2ray-linux-64.zip -d /etc/v2ray/ -x "systemd/*" -x "systemv/*" -x "doc/*" -x "*.sig" && \
+    mv /etc/v2ray/v2ray /bin/ && \
+    mv /etc/v2ray/v2ctl /bin/ && \
+    chmod +x /bin/v2ray /bin/v2ctl && \
+    rm /v2ray-linux-64.zip
+
+COPY v2ray/config.json /etc/v2ray/config.json
+
+COPY ss/v2ray-plugin /bin/v2ray-plugin
+
+Add supervisor/ss.ini /etc/supervisor.d
+Add supervisor/v2ray.ini /etc/supervisor.d
+
 USER ty
 
 EXPOSE 2222 8080
+
+ENV V2RAY_ID c191cf0b-f885-489c-872b-3e2285c8bc15
+ENV V2RAY_PATH vray
 
 #ENTRYPOINT ["entrypoint.sh"]
 
