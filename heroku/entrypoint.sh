@@ -17,7 +17,7 @@ fi
 sed -i "s/8080/$PORT/g" /etc/nginx/conf.d/ttyd.conf
 
 sed -i "s/RAY_PATH/$RAY_PATH/g" /etc/v2ray/config.json
-sed -i "s/RAY_PATH/$RAY_ID/g" /etc/v2ray/config.json
+sed -i "s/RAY_ID/$RAY_ID/g" /etc/v2ray/config.json
 sed -i "s/RAY_PATH/$RAY_PATH/g" /etc/nginx/conf.d/ttyd.conf
 
 sed -i "s/SS_PATH/$SS_PATH/g" /etc/supervisor.d/ss.ini

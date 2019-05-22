@@ -25,11 +25,6 @@ Add supervisor/sshd.ini /etc/supervisor.d
 
 ADD entrypoint.sh /usr/sbin
 
-RUN adduser -D ty && \
-    chown -R ty:ty /etc /var/log /var/run /var/local /var/lib /run /usr && \
-    echo "ty:ty" | chpasswd && \
-    chmod -R 777 /var/lib
-
 ADD https://github.com/v2ray/v2ray-core/releases/download/v4.18.0/v2ray-linux-64.zip /v2ray-linux-64.zip
 
 RUN mkdir -p /etc/v2ray && \
@@ -46,12 +41,20 @@ COPY ss/v2ray-plugin /bin/v2ray-plugin
 Add supervisor/ss.ini /etc/supervisor.d
 Add supervisor/v2ray.ini /etc/supervisor.d
 
+RUN adduser -D ty && \
+    chown -R ty:ty /etc /var/log /var/run /var/local /var/lib /run /usr && \
+    echo "ty:ty" | chpasswd && \
+    chmod -R 777 /var/lib
+
+
 USER ty
 
 EXPOSE 2222 8080
 
-ENV V2RAY_ID c191cf0b-f885-489c-872b-3e2285c8bc15
-ENV V2RAY_PATH vray
+ENV RAY_ID c191cf0b-f885-489c-872b-3e2285c8bc15
+ENV RAY_PATH v2ray
+ENV SS_PASS aYHElPyoG8e2H5ZllR
+ENV SS_PATH ss
 
 #ENTRYPOINT ["entrypoint.sh"]
 
