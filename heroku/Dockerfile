@@ -56,7 +56,7 @@ RUN adduser -D ty && \
     chmod -R 777 /var/lib /var/www /var/log
 
 
-USER ty
+#USER ty
 
 EXPOSE 2222 8080
 
