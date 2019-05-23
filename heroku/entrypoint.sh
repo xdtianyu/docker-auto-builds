@@ -17,8 +17,17 @@ fi
 sed -i "s/8080/$PORT/g" /etc/nginx/conf.d/ttyd.conf
 sed -i "s/PORT/$PORT/g" /etc/apache2/conf.d/ttyd.conf
 sed -i "/Listen\ 80/d" /etc/apache2/httpd.conf
-sed -i "s/User\ apache/User\ $(id -u -n)/g" /etc/apache2/httpd.conf
-sed -i "s/Group\ apache/Group\ $(id -g -n)/g" /etc/apache2/httpd.conf
+
+USER=$(id -u -n)
+GROUP=$(id -g -n)
+
+if [ $USER == "root" ]; then
+    USER="apache"
+    GROUP="apache"
+fi
+
+sed -i "s/User\ apache/User\ $USER/g" /etc/apache2/httpd.conf
+sed -i "s/Group\ apache/Group\ $GROUP/g" /etc/apache2/httpd.conf
 
 sed -i "s/RAY_PATH/$RAY_PATH/g" /etc/v2ray/config.json
 sed -i "s/RAY_ID/$RAY_ID/g" /etc/v2ray/config.json
