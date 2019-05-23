@@ -15,19 +15,29 @@ if [ ! -d "/var/run/sshd" ]; then
 fi
 
 sed -i "s/8080/$PORT/g" /etc/nginx/conf.d/ttyd.conf
+sed -i "s/PORT/$PORT/g" /etc/apache2/conf.d/ttyd.conf
+sed -i "/Listen\ 80/d" /etc/apache2/httpd.conf
+sed -i "s/User\ apache/User\ $(id -u -n)/g" /etc/apache2/httpd.conf
+sed -i "s/Group\ apache/Group\ $(id -g -n)/g" /etc/apache2/httpd.conf
 
 sed -i "s/RAY_PATH/$RAY_PATH/g" /etc/v2ray/config.json
 sed -i "s/RAY_ID/$RAY_ID/g" /etc/v2ray/config.json
 sed -i "s/RAY_PATH/$RAY_PATH/g" /etc/nginx/conf.d/ttyd.conf
+sed -i "s/RAY_PATH/$RAY_PATH/g" /etc/apache2/conf.d/ttyd.conf
 
 sed -i "s/SS_PATH/$SS_PATH/g" /etc/supervisor.d/ss.ini
 sed -i "s/SS_PASS/$SS_PASS/g" /etc/supervisor.d/ss.ini
 sed -i "s/SS_PATH/$SS_PATH/g" /etc/nginx/conf.d/ttyd.conf
+sed -i "s/SS_PATH/$SS_PATH/g" /etc/apache2/conf.d/ttyd.conf
 
 
 rm /etc/nginx/conf.d/default.conf
 
-/usr/sbin/nginx -g 'daemon on; master_process on;'
+if [ -z "$APACHE" ]; then
+    /usr/sbin/nginx -g 'daemon on; master_process on;'
+else
+    apachectl start
+fi
 
 supervisord -c /etc/supervisord.conf
 
