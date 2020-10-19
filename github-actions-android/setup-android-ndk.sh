@@ -20,8 +20,8 @@ if [ ! -d "$NDK" ] || [ -z "$(ls -A $NDK)" ];then
     mv "android-ndk-$VERSION/"* .
     rm "android-ndk-$VERSION-linux-x86_64.zip"
     rm -r "android-ndk-$VERSION/"
-    export ANDROID_NDK=$NDK
-    export ANDROID_NDK_HOME=$NDK
     cd -
 fi
 
+export ANDROID_NDK=$NDK
+export ANDROID_NDK_HOME=$NDK

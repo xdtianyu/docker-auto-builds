@@ -26,8 +26,9 @@ if [ ! -d "$SDK" ] || [ -z "$(ls -A $SDK)" ];then
 
     cd -
 
-    export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$SDK/emulator/:$SDK/tools/bin:$SDK/tools:$SDK/platform-tools:$NDK:$SDK/cmake/3.10.2.4988404/bin
-    export ANDROID_HOME=$SDK
-    export ANDROID_SDK=$SDK
-    export GRADLE_USER_HOME=$GRADLE
 fi
+
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$SDK/emulator/:$SDK/tools/bin:$SDK/tools:$SDK/platform-tools:$NDK:$SDK/cmake/3.10.2.4988404/bin
+export ANDROID_HOME=$SDK
+export ANDROID_SDK=$SDK
+export GRADLE_USER_HOME=$GRADLE
